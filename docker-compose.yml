@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    apache2:
+        build: ./Apache2
+        ports:
+            - 8080:80
+        volumes:
+            - ./Apache2/app:/app
+        environment:
+            WEBAPP_ROOT: public/
+        links: 
+            - mysql:database
+            
+    mysql:
+        build: ./MySQL
+        restart: always
+        ports:
+            - 3306:3306
+#Om data te kunnen uitlezen kunnen we een volume mounten in /var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_ROOT_HOST: '%'
